@@ -47,6 +47,7 @@ app.get("/players/", async (request, response) => {
   const players = await db.all(getPlayersQuery);
   response.send(players);
 });
+// get method
 
 app.get("/players/:playerId/", async (request, response) => {
   const { playerId } = request.params;
@@ -55,7 +56,7 @@ app.get("/players/:playerId/", async (request, response) => {
       player_id As playerId,
       player_name As playerName
     FROM
-      player_details;
+      player_details
     WHERE
       player_id = ${playerId};`;
   const player = await db.get(getPlayerQuery);
@@ -72,7 +73,7 @@ app.put("/players/:playerId/", async (request, response) => {
     UPDATE
       player_details
     SET
-       player_name =  '${playerName}',
+       player_name =  '${playerName}'
     WHERE
       player_id = ${playerId};`;
   await db.run(updatePlayerQuery);
@@ -86,7 +87,7 @@ app.get("/matches/:matchId/", async (request, response) => {
    SELECT
       *
     FROM
-      match_details;
+      match_details
     WHERE
       match_id = ${matchId};`;
   const match = await db.get(getMatchQuery);
@@ -134,7 +135,7 @@ app.get("/players/:playerId/playerScores", async (request, response) => {
     player_details.player_id = player_match_score.player_id
     WHERE player_details.player_id = ${playerId};
     `;
-  const playerScore = await db.all(getPlayerScored);
+  const playerScore = await db.get(getPlayerScored);
   response.send(playerScore);
 });
 
